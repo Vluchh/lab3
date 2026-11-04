@@ -1,0 +1,60 @@
+@startuml HotDogClassDiagram
+title UML-диаграмма классов магазина хот-догов
+
+left to right direction
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam linetype ortho
+hide empty members
+
+class HotDogComponent {
+    - name: String
+    - price: double
+    + HotDogComponent(name: String, price: double)
+    + getName(): String
+    + getPrice(): double
+}
+
+abstract class HotDog {
+    - name: String
+    - components: List<HotDogComponent>
+    # HotDog(name: String, components: List<HotDogComponent>)
+    + getName(): String
+    + getComponents(): List<HotDogComponent>
+    + calculatePrice(): double
+}
+
+class HunterDog
+class MasterDog
+class Berlinca
+
+class Order {
+    - hotDogs: List<HotDog>
+    - components: List<HotDogComponent>
+    + addHotDog(hotDog: HotDog): void
+    + addComponent(component: HotDogComponent): void
+    + calculateTotal(): double
+    + getCompleteOrderCount(): int
+    + getHotDogCount(): int
+    + getComponentCount(): int
+}
+
+class OrderManager {
+    - orders: List<Order>
+    + addOrder(order: Order): void
+    + calculateTotalSales(): double
+    + calculateCompleteOrderCount(): int
+    + calculateAverageOrderCost(): double
+    + getOrderCount(): int
+}
+
+HotDog <|-- HunterDog
+HotDog <|-- MasterDog
+HotDog <|-- Berlinca
+
+HotDog "1" o-- "1..*" HotDogComponent : содержит
+Order "1" o-- "0..*" HotDog : хранит
+Order "1" o-- "0..*" HotDogComponent : хранит
+OrderManager "1" o-- "0..*" Order : учитывает
+
+@enduml
